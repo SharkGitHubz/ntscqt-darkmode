@@ -5,7 +5,6 @@ from pathlib import Path
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QLibraryInfo
 from PyQt5.QtCore import QFile, QTextStream
-import darkdetect
 
 from app import NtscApp
 from app import logger
@@ -14,16 +13,13 @@ os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = QLibraryInfo.location(
     QLibraryInfo.PluginsPath
 )
 
-
 def crash_handler(type, value, tb):
     logger.trace(value)
     logger.exception("Uncaught exception: {0}".format(str(value)))
     sys.exit(1)
 
-
 # Install exception handler
 sys.excepthook = crash_handler
-
 
 def main():
     translator = QtCore.QTranslator()
@@ -49,17 +45,16 @@ def main():
     app = QtWidgets.QApplication(sys.argv)
     app.installTranslator(translator)
 
-    if darkdetect.isDark():
-        import ui.breeze_resources
-        darkthm = QFile(":/dark/stylesheet.qss")
-        darkthm.open(QFile.ReadOnly | QFile.Text)
-        darkthm_stream = QTextStream(darkthm)
-        app.setStyleSheet(darkthm_stream.readAll())
+    # Always apply dark mode stylesheet
+    import ui.breeze_resources
+    darkthm = QFile(":/dark/stylesheet.qss")
+    darkthm.open(QFile.ReadOnly | QFile.Text)
+    darkthm_stream = QTextStream(darkthm)
+    app.setStyleSheet(darkthm_stream.readAll())
 
     window = NtscApp()
     window.show()
     sys.exit(app.exec_())
-
 
 if __name__ == '__main__':
     main()
