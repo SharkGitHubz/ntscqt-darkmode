@@ -2,7 +2,6 @@
 
 block_cipher = None
 
-
 a = Analysis(['ntscQT.py'],
              pathex=['Z:\\src', 'c:\\Python37\\Lib\\site-packages\\cv2'],
              binaries=[
@@ -12,6 +11,8 @@ a = Analysis(['ntscQT.py'],
              datas=[
                 ('./app/ringPattern.npy', './app'),
                 ('translate/*.qm', 'translate/'),
+                ('path_to_dark_stylesheet/stylesheet.qss', 'path_in_bundle/'),
+                ('path_to_ui_resources/breeze_resources', 'ui/')
              ],
              hiddenimports=['scipy.special.cython_special', 'scipy.spatial.transform._rotation_groups', 'app'],
              hookspath=[],
@@ -21,8 +22,10 @@ a = Analysis(['ntscQT.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
+
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
+
 exe = EXE(pyz,
           a.scripts,
           a.binaries,
@@ -36,5 +39,8 @@ exe = EXE(pyz,
           upx=False,
           upx_exclude=[],
           icon='Z:\\src\\ntscqt_icon.ico',
+          runtime_tmpdir=None,
+          console=False)
+
           runtime_tmpdir=None,
           console=False )
