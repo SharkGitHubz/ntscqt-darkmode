@@ -45,16 +45,28 @@ def main():
     app = QtWidgets.QApplication(sys.argv)
     app.installTranslator(translator)
 
-    # Always apply dark mode stylesheet
-    import ui.breeze_resources
-    darkthm = QFile(":/dark/stylesheet.qss")
-    darkthm.open(QFile.ReadOnly | QFile.Text)
-    darkthm_stream = QTextStream(darkthm)
-    app.setStyleSheet(darkthm_stream.readAll())
+    # Always apply dark mode palette
+    dark_palette = QtGui.QPalette()
+
+    # Set dark background color
+    dark_palette.setColor(QtGui.QPalette.Window, QtGui.QColor(53, 53, 53))
+    dark_palette.setColor(QtGui.QPalette.WindowText, QtCore.Qt.white)
+    dark_palette.setColor(QtGui.QPalette.Base, QtGui.QColor(42, 42, 42))
+    dark_palette.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(66, 66, 66))
+    dark_palette.setColor(QtGui.QPalette.ToolTipBase, QtCore.Qt.white)
+    dark_palette.setColor(QtGui.QPalette.ToolTipText, QtCore.Qt.white)
+    dark_palette.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
+    dark_palette.setColor(QtGui.QPalette.Button, QtGui.QColor(53, 53, 53))
+    dark_palette.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
+    dark_palette.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
+
+    # Highlight colors
+    dark_palette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(142, 45, 197).lighter())
+    dark_palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
+
+    app.setPalette(dark_palette)
 
     window = NtscApp()
     window.show()
     sys.exit(app.exec_())
 
-if __name__ == '__main__':
-    main()
